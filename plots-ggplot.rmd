@@ -49,11 +49,38 @@ gg_base+geom_point(color="purple", pch=17, size=4, alpha=0.5)
 gg_base+geom_point(color="lightcoral", pch=18, size=5, alpha=0.8)
 ```
 ```{r}
-gg_base+geom_point(aes(size=visitors,color=visitors), alpha=0.5)
+gg_base+geom_point(aes(size=visitors,color=visitors), alpha=0.5) + theme_minimal()
 ```
 ```{r}
-gg_base+geom_col(aes(fill=visitors))
+gg_base+geom_col(aes(fill=visitors))+ theme_light()
 ```
-                 
-              
+```{r}
+gg_base+geom_line(linetype="dotted", color= "cornflowerblue")+theme_bw()+labs(
+  x="Year",
+  y="Annual Park Visitors",
+  title="Channel Islands NP Visitors",
+  subtitle= "(1963-2016)")
+```
 
+```{r}
+gg_base+geom_line(color="hotpink")+
+  geom_point(color="springgreen", pch=17, aes(size=year),alpha=0.5)
+```
+```{r}
+gg_base+geom_col(color="skyblue", fill="lightpink")+geom_line(color="deeppink")
+```
+```{r}
+ggplot(data=ca_np, aes(x=year,y=visitors))+geom_line()
+```
+```{r}
+ggplot(data=ca_np, aes(x=year, y=visitors, group=park_name))+geom_line(aes(color=park_name))
+```
+``` {r}
+gg_np <- ggplot(data=ca_np, aes(x=year, y=visitors, group= park_name))
+```
+```{r}
+gg_np + geom_line(color="violetred", show.legend=FALSE)+ theme_light()+labs(x="year",y= "annual visitors")+facet_wrap(~ park_name)
+```
+```{r}
+ggsave(here("figures","np_graph.jpg"),dpi=180,width=8,height=7)
+```
