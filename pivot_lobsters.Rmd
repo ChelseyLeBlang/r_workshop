@@ -1,0 +1,44 @@
+---
+title: "pivot_lobsters"
+author: "Chelsey"
+date: "5/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r} 
+## attach libraries
+library(tidyverse)
+library(readxl)
+library(here)
+library(skimr) #install.packages("skimr")
+library(kableExtra) #install.packages ("kableExtra")
+```
+```{r}
+##read in data
+lobsters <- read_xlsx(here("data/lobsters.xlsx"), skip=4)
+```
+```{r}
+summary(lobsters)
+```
+```{r}
+#explore data
+skimr::skim(lobsters)
+```
+```{r}
+lobsters %>%
+  group_by(year) %>%
+  summarize(count_by_year=n())
+```
+```{r} 
+lobsters %>%
+  group_by(year)
+```
+```{r}
+lobsters %>%
+  group_by(site,year) %>%
+  summarize(count_by_siteyear=n())
+```
