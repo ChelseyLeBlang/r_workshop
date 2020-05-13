@@ -96,3 +96,27 @@ ggplot(data=site_year_summary, aes(x=year,y=median_size_mm))+geom_col()+facet_wr
 ```{r}
 ggsave(here("figures","lobsters_col.png"))
 ```
+```{r}
+lobsters %>%
+  count(site,year)
+```
+```{r}
+##this is the same as 
+lobsters %>%
+  group_by(site,year) %>%
+  summarize (n=n())
+```
+There are `r count(lobsters)` total lobsters included in this summary
+```{r}
+lobsters %>%
+  mutate(size_m=size_mm/1000)
+```
+```{r}
+lobsters_detailed <- lobsters %>%
+  mutate(size_m=size_mm/1000,millenia=2000, observer= "allison horst")
+```
+```{r}
+lobsters_detailed %>%
+  select(date,site,size_m)
+```
+
