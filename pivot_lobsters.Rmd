@@ -42,3 +42,57 @@ lobsters %>%
   group_by(site,year) %>%
   summarize(count_by_siteyear=n())
 ```
+```{r}
+library(tidyverse)
+library(readxl)
+library(here)
+library(skimr)
+library (kableExtra)
+
+lobsters %>%
+  group_by(site,year) %>%
+  summarize(count_by_siteyear=n(),
+            mean_size_mm=mean(size_mm, na.rm=TRUE),
+            sd_size_mm=sd(size_mm,  na.rm = TRUE))
+```
+```{r}
+site_year_summary <- lobsters %>%
+  group_by(site,year) %>%
+  summarize(count_by_siteyear=n(),
+            mean_size_mm=mean(size_mm, na.rm=TRUE),
+            sd_size_mm=sd(size_mm,  na.rm = TRUE))
+```
+```{r}
+##make a table with your new variable
+
+site_year_summary %>%
+  kable()
+```
+There are `r nrow(lobsters)` total lobsters included in this report.
+```{r}
+lobsters %>%
+  group_by(site,year)%>%
+  summarize(median_sizemm=median(size_mm,na.rm = TRUE))
+```
+```{r}
+site_year_summary <- lobsters %>%
+  group_by(site,year) %>%
+  summarize(count_by_siteyear=n(),
+            mean_size_mm=mean(size_mm, na.rm=TRUE),
+            sd_size_mm=sd(size_mm,  na.rm = TRUE),
+            median_size_mm=median(size_mm, na.rm = TRUE))
+
+```
+```{r}
+##ggplot option
+ggplot(data = site_year_summary, aes(x=year,y=median_size_mm, color=site))+ geom_point()
+```
+```{r}
+ggsave(here("figures","lobsters_point.png"))
+```
+```{r}
+ggplot(data=site_year_summary, aes(x=year,y=median_size_mm))+geom_col()+facet_wrap(~site)
+```
+```{r}
+ggsave(here("figures","lobsters_col.png"))
+```
