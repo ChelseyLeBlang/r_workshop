@@ -15,3 +15,63 @@ library (here)
 library (janitor) #install janitor
 library (readxl)
 ```
+```{r}
+inverts <- read_excel(here("data","inverts.xlsx"))
+```
+```{r}
+#can use quotes, ', or backtick 
+inverts_long <- pivot_longer(data=inverts,
+                             cols='2016':'2018',
+                             names_to="year",
+                             values_to="sp_count")
+```
+```{r}
+class(inverts_long$year)
+```
+```{r}
+#change year class to numeric
+inverts_long <- inverts_long %>%
+  mutate(year=as.numeric(year))
+```
+```{r}
+#clean names
+inverts_wide <- inverts_wide %>%
+  clean_names()
+names(inverts_wide)
+```
+
+```{r}
+class(inverts_long$year)
+```
+```{r}
+#change species to single columns
+inverts_wide <- inverts_long %>%
+  pivot_wider(names_from=common_name,
+               values_from=sp_count)
+```
+```{r}
+inverts_unite <- inverts_long %>% #data
+  unite (col="site_year", #new column
+         c(site,year), #columns to combine
+         sep= "_") # symbol to demarcate combo
+```
+```{r}
+inverts_moyr <- inverts_long %>%
+  unite(col="mo_yr",
+        c(month,year),
+        sep="/")
+```
+```{r}
+inverts_triple  <- inverts_long %>%
+  unite(col="site_name_year",
+        c(year,site,common_name),
+        sep="-")
+```
+```{r}
+inverts_sep <- inverts_unite %>%
+  tidyr::separate(site_year, into=c("my_site","my_year"))
+```
+```{r}
+ca_abrr <- inverts %>%
+  mutate(common_name= str_replace(common_name,pattern="california", replacement="CA"))
+```
