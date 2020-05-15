@@ -29,3 +29,89 @@ fish_garibaldi <- fish %>%
 fish_mohk <- fish %>%
   filter (site=="mohk")
 ```
+```{r}
+fish_over50 <- fish %>%
+  filter (total_count>=50)
+```
+```{r}
+fish_3sp <- fish %>%
+  filter (common_name=="garibaldi"|
+            common_name== "blacksmith"|
+            common_name=="black surfperch")
+```
+```{r}
+fish_3sp2 <- fish %>%
+  filter(common_name %in% c("garibaldi","blacksmith","black surfperch"))
+```
+```{r}
+fish_gar_2016 <- fish %>%
+  filter (year==2016|common_name=="garibaldi")
+```
+```{r}
+aque_2018 <- fish %>%
+  filter(year==2018,site=="aque")
+```
+```{r}
+#can use the ampersand to indicate and this must be true 
+aque_2018_2 <- fish %>%
+  filter(year==2018 & site=="aque")
+```
+```{r}
+#can use sequential functions 
+aque_2018_3 <- fish %>%
+  filter(year==2018) %>%
+  filter(site=="aque")
+```
+```{r}
+low_gb_rw <- fish %>%
+  filter(common_name %in% c("garibaldi", "rock wrasse"), total_count<=10)
+```
+```{r}
+low_gb_rw_JL <- fish %>%
+   filter(common_name %in% c("garibaldi", "rock wrasse"), 
+         total_count <= 10)
+```
+```{r}
+low_gb_rw_JL <- fish %>%
+   filter(common_name=="garibaldi"| 
+            common_name=="rock wrasse" & 
+         total_count <= 10)
+```
+```{r}
+blackfish <- fish %>%
+  filter(str_detect(common_name, pattern="black"))
+```
+```{r}
+fish_it <- fish %>%
+  filter (str_detect(common_name,pattern = "it"))
+#blacksmITh and senorITa remain
+```
+```{r}
+abur_kelp_fish <- kelp_abur %>%
+  full_join(fish, by = c("year","site"))
+view(abur_kelp_fish)
+```
+```{r}
+kelp_fish_left <- kelp_abur %>%
+  left_join(fish, by=c("year","site"))
+view(kelp_fish_left)
+```
+```{r}
+kelp_fish_inner <- kelp_abur %>%
+  inner_join(fish, by=c("year","site"))
+view(kelp_fish_inner)
+```
+```{r}
+my_fish_join <- fish %>%
+  filter(year==2017 & site=="abur") %>%
+  left_join(kelp_abur, by=c("year","site")) %>%
+              mutate(fish_per_frond = total_count/total_fronds)
+```
+```{r}
+kable(my_fish_join)
+```
+```{r}
+my_fish_join %>%
+  kable() %>%
+  kable_styling(bootstrap_options = "striped", full_width=FALSE)
+```
