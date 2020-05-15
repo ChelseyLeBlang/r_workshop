@@ -1,0 +1,31 @@
+---
+title: "filter_join"
+author: "Chelsey"
+date: "5/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+library (readxl)
+library (here)
+library(kableExtra)
+```
+```{r}
+#read in data
+fish <- read_csv(here("data","fish.csv"))
+```
+```{r}
+kelp_abur <- read_excel(here("data", "kelp_fronds.xlsx"), sheet = "abur")
+```
+```{r}
+fish_garibaldi <- fish %>%
+  filter (common_name=="garibaldi")
+```
+```{r}
+fish_mohk <- fish %>%
+  filter (site=="mohk")
+```
